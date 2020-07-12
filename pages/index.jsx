@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import Link from 'next/link';
 
 const LINKS = ['about', 'posts'];
@@ -7,6 +8,10 @@ const capitalize = (str) => str.replace(/^\w/, (match) => match.toUpperCase());
 export default function IndexPage() {
   return (
     <>
+      <Head>
+        <title>Homepage</title>
+        <meta name="keywords" content="javascript, react, nextjs" />
+      </Head>
       <h1>Hello Next.js</h1>
       <nav>
         <ul>
