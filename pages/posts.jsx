@@ -8,8 +8,7 @@ export default function PostsPage() {
   const [inputValue, setInputValue] = useState('');
 
   const handleInputChange = useCallback((event) => {
-    alert(event.value);
-    setInputValue(event.value);
+    setInputValue(event.target.value);
   }, []);
 
   return (
@@ -22,10 +21,6 @@ export default function PostsPage() {
         <p>
           <label>Enter post number:</label>
           <input type="text" value={inputValue} onChange={handleInputChange} />
-        </p>
-        <p>
-          Current input value:
-          <output>{inputValue}</output>
         </p>
         <Link href={`/post/${inputValue}`}>
           <button type="button">Jump!</button>
