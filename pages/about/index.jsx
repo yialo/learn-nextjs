@@ -12,7 +12,7 @@ export default function AboutPage() {
   const handlePostsButtonClick = useButtonClickHandler('posts');
 
   return (
-    <MainLayout>
+    <MainLayout title="About page">
       <h1>About page</h1>
       <button type="button" onClick={handleHomeButtonClick}>Go home</button>
       <button type="button" onClick={handlePostsButtonClick}>Jump to posts</button>

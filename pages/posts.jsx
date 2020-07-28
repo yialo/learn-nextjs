@@ -1,5 +1,4 @@
 import { useCallback, useState } from 'react';
-import Head from 'next/head';
 import Link from 'next/link';
 
 import { MainLayout } from '../layouts/MainLayout';
@@ -13,10 +12,7 @@ export default function PostsPage() {
 
   return (
     <>
-      <Head>
-        <title>Posts page | NextJS</title>
-      </Head>
-      <MainLayout>
+      <MainLayout title="Posts page | NextJS">
         <h1>Posts</h1>
         <p>
           <label>Enter post number:</label>
