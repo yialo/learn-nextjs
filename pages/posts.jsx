@@ -1,19 +1,10 @@
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { MainLayout } from '../layouts/MainLayout';
 
-export default function PostsPage() {
+export default function PostsPage({ posts }) {
   const [inputValue, setInputValue] = useState('');
-  const [posts, setPosts]  = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      const json = await (await fetch('http://localhost:3100/posts')).json();
-      setPosts(json);
-      console.log(json);
-    })();
-  }, []);
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -30,11 +21,17 @@ export default function PostsPage() {
         <Link href={`/post/${inputValue}`}>
           <button type="button">Jump!</button>
         </Link>
-        <pre>
-          {JSON.stringify(posts, null, 2)}
-        </pre>
         <ul>
-
+          {posts.map(({ id, title, body }) => (
+            <li key={id}>
+              <h2>
+                <Link href={`/post/[id]`} as={`/post/${id}`}>
+                  <a>{title}</a>
+                </Link>
+              </h2>
+              <p>{body}</p>
+            </li>
+          ))}
         </ul>
       </MainLayout>
       <style jsx>
@@ -46,8 +43,16 @@ export default function PostsPage() {
             font-size: 14px;
             color: #343434;
           }
+
+          ul {
+            list-style-type: none;
+          }
         `}
       </style>
     </>
   );
 }
+
+PostsPage.getInitialProps = async (ctx) => ({
+  posts: await (await fetch('http://localhost:3100/posts')).json(),
+});
