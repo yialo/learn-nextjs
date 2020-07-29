@@ -1,7 +1,16 @@
+import styled from 'styled-components';
 import { useCallback, useState } from 'react';
 import Link from 'next/link';
 
 import { MainLayout } from '../layouts/MainLayout';
+
+const Input = styled.input`
+  border: 1px solid #343434;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #343434;
+`;
 
 export default function PostsPage() {
   const [inputValue, setInputValue] = useState('');
@@ -16,7 +25,7 @@ export default function PostsPage() {
         <h1>Posts</h1>
         <p>
           <label>Enter post number:</label>
-          <input type="text" value={inputValue} onChange={handleInputChange} />
+          <Input type="text" value={inputValue} onChange={handleInputChange} />
         </p>
         <Link href={`/post/${inputValue}`}>
           <button type="button">Jump!</button>
