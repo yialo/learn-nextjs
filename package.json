@@ -1,15 +1,20 @@
 {
   "dependencies": {
+    "json-server": "0.16.1",
     "next": "9.5.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "sass": "1.26.10",
-    "styled-components": "5.1.1"
+    "sass": "1.26.10"
+  },
+  "devDependencies": {
+    "concurrently": "5.2.0"
   },
   "private": true,
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "start": "next start"
+    "mock": "json-server --watch ./db.json --port 3100 --delay 500",
+    "start": "next start",
+    "serve": "concurrently \"npm run dev\" \"npm run mock\""
   }
 }
