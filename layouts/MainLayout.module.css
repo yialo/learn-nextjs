@@ -1,0 +1,36 @@
+.Menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: black;
+}
+
+.List {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 0;
+  margin-bottom: 0;
+  height: 3rem;
+  padding-left: 0;
+  list-style-type: none;
+}
+
+.Item {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+}
+
+.Link {
+  text-decoration: none;
+  color: white;
+}
+
+.Link:hover {
+  text-decoration: underline;
+}
+
+.Main {
+  margin-top: 4rem;
+}
