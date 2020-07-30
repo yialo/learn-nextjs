@@ -53,6 +53,11 @@ export default function PostsPage({ posts }) {
   );
 }
 
-PostsPage.getInitialProps = async (ctx) => ({
-  posts: await (await fetch('http://localhost:3100/posts')).json(),
-});
+export async function getServerSideProps() {
+  const posts = await (await fetch('http://localhost:3100/posts')).json();
+  return {
+    props: {
+      posts,
+    },
+  };
+};
