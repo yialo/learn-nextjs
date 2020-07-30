@@ -53,11 +53,11 @@ export default function PostsPage({ posts }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(ctx) {
   const posts = await (await fetch('http://localhost:3100/posts')).json();
   return {
     props: {
       posts,
     },
   };
-};
+}
