@@ -9,12 +9,16 @@ import { URL } from '../../constants';
 
 export default function Post({ post: serverPost }) {
   const [post, setPost] = useState(serverPost);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
+    setLoading(true);
+
     (async () => {
       const updatedPost = await (await window.fetch(`${URL.POSTS}/${router.query.id}`)).json();
       setPost(updatedPost);
+      setLoading(false);
     })();
   }, []);
 
@@ -23,13 +27,13 @@ export default function Post({ post: serverPost }) {
   return (
     <>
       <MainLayout title={`Post ${id} | NextJS App`}>
-        {false ? (
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
           <>
             <h1>{title}</h1>
             <p>{body}</p>
           </>
-        ) : (
-          <p>Loading...</p>
         )}
         <hr />
         <div className="link-container">
