@@ -1,13 +1,11 @@
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
 import { MainLayout } from '../../layouts/MainLayout';
 
-export default function Post({ post }) {
-  const router = useRouter();
-  const { id } = router.query;
+import { URL } from '../../constants';
 
-  const { title, body } = post;
+export default function Post({ post }) {
+  const { id, title, body } = post;
 
   return (
     <>
@@ -33,8 +31,25 @@ export default function Post({ post }) {
   );
 }
 
-export async function getServerSideProps(ctx) {
-  const post = await (await fetch(`http://localhost:3100/posts/${ctx.query.id}`)).json();
+export async function getStaticPaths() {
+  const posts = await (await fetch(URL.POSTS)).json();
+  const paths = posts.map((post) => {
+    console.log(post);
+
+    return {
+      params: { id: post.id.toString() },
+    };
+  });
+
+  return {
+    paths,
+    fallback: false,
+  };
+}
+
+export async function getStaticProps(ctx) {
+  const { params } = ctx;
+  const post = await (await fetch(`${URL.POSTS}/${params.id}`)).json();
 
   return {
     props: {

@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { useState } from 'react';
 
+import { URL } from '../constants';
+
 import { MainLayout } from '../layouts/MainLayout';
 
 export default function PostsPage({ posts }) {
@@ -54,7 +56,7 @@ export default function PostsPage({ posts }) {
 }
 
 export async function getServerSideProps(ctx) {
-  const posts = await (await fetch('http://localhost:3100/posts')).json();
+  const posts = await (await fetch(URL.POSTS)).json();
   return {
     props: {
       posts,
