@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Link from 'next/link';
 
-import style from './MainLayout.module.css';
+import style from './MainLayout.module.scss';
 
 const HOME_LINK = 'home';
 const LINKS = [HOME_LINK, 'about', 'posts'];
