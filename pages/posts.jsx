@@ -1,12 +1,30 @@
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { URL } from '../constants';
 
 import { MainLayout } from '../layouts/MainLayout';
 
-export default function PostsPage({ posts }) {
+export default function PostsPage({ posts: serverPosts }) {
   const [inputValue, setInputValue] = useState('');
+  const [controlState, setControlState] = useState({
+    posts: serverPosts,
+    loading: false,
+  });
+
+  useEffect(() => {
+    setControlState({
+      loading: true,
+    });
+
+    (async () => {
+      const posts = await (await fetch(URL.POSTS)).json();
+      setControlState({
+        posts,
+        loading: false,
+      });
+    })();
+  }, []);
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -23,18 +41,23 @@ export default function PostsPage({ posts }) {
         <Link href={`/post/${inputValue}`}>
           <button type="button">Jump!</button>
         </Link>
-        <ul>
-          {posts.map(({ id, title, body }) => (
-            <li key={id}>
-              <h2>
-                <Link href={'/post/[id]'} as={`/post/${id}`}>
-                  <a>{title}</a>
-                </Link>
-              </h2>
-              <p>{body}</p>
-            </li>
-          ))}
-        </ul>
+        <hr />
+        {controlState.loading ? (
+          <p>Loading...</p>
+        ) : (
+          <ul>
+            {controlState.posts.map(({ id, title, body }) => (
+              <li key={id}>
+                <h2>
+                  <Link href={'/post/[id]'} as={`/post/${id}`}>
+                    <a>{title}</a>
+                  </Link>
+                </h2>
+                <p>{body}</p>
+              </li>
+            ))}
+          </ul>
+        )}
       </MainLayout>
       <style jsx>
         {`
@@ -55,8 +78,9 @@ export default function PostsPage({ posts }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const posts = await (await fetch(URL.POSTS)).json();
+
   return {
     props: {
       posts,

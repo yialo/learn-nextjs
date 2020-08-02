@@ -7,26 +7,33 @@ import { MainLayout } from '../../layouts/MainLayout';
 import { URL } from '../../constants';
 
 export default function Post({ post: serverPost }) {
-  const [post, setPost] = useState(serverPost);
-  const [loading, setLoading] = useState(true);
+  const [state, setState] = useState({
+    post: serverPost,
+    loading: false,
+  });
   const router = useRouter();
 
   useEffect(() => {
-    setLoading(true);
+    setState((prev) => ({
+      ...prev,
+      loading: true,
+    }));
 
     (async () => {
       const updatedPost = await (await window.fetch(`${URL.POSTS}/${router.query.id}`)).json();
-      setPost(updatedPost);
-      setLoading(false);
+      setState({
+        post: updatedPost,
+        loading: false,
+      });
     })();
   }, []);
 
-  const { id, title, body } = post;
+  const { id, title, body } = state.post;
 
   return (
     <>
       <MainLayout title={`Post ${id} | NextJS App`}>
-        {loading ? (
+        {state.loading ? (
           <p>Loading...</p>
         ) : (
           <>
