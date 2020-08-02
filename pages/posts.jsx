@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import nodeFetch from 'node-fetch';
 import { useState } from 'react';
 
 import { URL } from '../constants';
@@ -28,7 +27,7 @@ export default function PostsPage({ posts }) {
           {posts.map(({ id, title, body }) => (
             <li key={id}>
               <h2>
-                <Link href={`/post/[id]`} as={`/post/${id}`}>
+                <Link href={'/post/[id]'} as={`/post/${id}`}>
                   <a>{title}</a>
                 </Link>
               </h2>
@@ -56,8 +55,8 @@ export default function PostsPage({ posts }) {
   );
 }
 
-export async function getServerSideProps(ctx) {
-  const posts = await (await nodeFetch(URL.POSTS)).json();
+export async function getServerSideProps() {
+  const posts = await (await fetch(URL.POSTS)).json();
   return {
     props: {
       posts,

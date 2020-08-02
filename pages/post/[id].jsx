@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import nodeFetch from 'node-fetch';
 import { useEffect, useState } from 'react';
 
 import { MainLayout } from '../../layouts/MainLayout';
@@ -55,12 +54,8 @@ export default function Post({ post: serverPost }) {
 }
 
 export async function getStaticPaths() {
-  const posts = await (await nodeFetch(URL.POSTS)).json();
-  const paths = posts.map((post) => {
-    return {
-      params: { id: post.id.toString() },
-    };
-  });
+  const posts = await (await fetch(URL.POSTS)).json();
+  const paths = posts.map((post) => ({ params: { id: String(post.id) } }));
 
   return {
     paths,
@@ -68,9 +63,8 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps(ctx) {
-  const { params } = ctx;
-  const post = await (await nodeFetch(`${URL.POSTS}/${params.id}`)).json();
+export async function getStaticProps({ params }) {
+  const post = await (await fetch(`${URL.POSTS}/${params.id}`)).json();
 
   return {
     props: {

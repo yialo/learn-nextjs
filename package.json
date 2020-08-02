@@ -13,7 +13,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "mock": "json-server --watch ./db.json --port 3100 --delay 1000",
+    "mock": "json-server --watch ./db.json --port 3100 --delay 500",
     "start": "next start",
     "serve": "concurrently \"npm run dev\" \"npm run mock\""
   }
