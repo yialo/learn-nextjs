@@ -1,12 +1,18 @@
+import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
+import { ICustomPost } from '../../interfaces';
 import { MainLayout } from '../../layouts/MainLayout';
 
 import { URL } from '../../constants';
 
-export default function Post({ post: serverPost }) {
+interface IPostPageProps {
+  post: ICustomPost;
+}
+
+export default function Post({ post: serverPost }: IPostPageProps) {
   const [state, setState] = useState({
     post: serverPost,
     loading: false,
@@ -70,7 +76,7 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps({ params }) {
+export const getStaticProps: GetStaticProps = async ({ params }) => {
   const post = await (await fetch(`${URL.POSTS}/${params.id}`)).json();
 
   return {

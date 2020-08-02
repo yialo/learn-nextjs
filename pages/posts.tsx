@@ -1,9 +1,14 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
+import { ICustomPost } from '../interfaces';
 import { URL } from '../constants';
 
 import { MainLayout } from '../layouts/MainLayout';
+
+interface IProps {
+  posts: ICustomPost[];
+}
 
 export default function PostsPage({ posts: serverPosts }) {
   const [inputValue, setInputValue] = useState('');
@@ -13,9 +18,10 @@ export default function PostsPage({ posts: serverPosts }) {
   });
 
   useEffect(() => {
-    setControlState({
+    setControlState((prev) => ({
+      ...prev,
       loading: true,
-    });
+    }));
 
     (async () => {
       const posts = await (await fetch(URL.POSTS)).json();
@@ -26,7 +32,7 @@ export default function PostsPage({ posts: serverPosts }) {
     })();
   }, []);
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: React.SyntheticEvent) => {
     setInputValue(event.target.value);
   };
 
