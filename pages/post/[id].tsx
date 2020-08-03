@@ -1,6 +1,7 @@
-import { GetStaticProps } from 'next';
+import { GetStaticPaths, GetStaticProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { ParsedUrlQuery } from 'querystring';
 import { useEffect, useState } from 'react';
 
 import { ICustomPost } from '../../interfaces';
@@ -8,11 +9,11 @@ import { MainLayout } from '../../layouts/MainLayout';
 
 import { URL } from '../../constants';
 
-interface IPostPageProps {
+interface IProps {
   post: ICustomPost;
 }
 
-export default function Post({ post: serverPost }: IPostPageProps) {
+export default function Post({ post: serverPost }: IProps) {
   const [state, setState] = useState({
     post: serverPost,
     loading: false,
@@ -66,9 +67,13 @@ export default function Post({ post: serverPost }: IPostPageProps) {
   );
 }
 
-export async function getStaticPaths() {
+interface IParam extends ParsedUrlQuery {
+  id: string;
+}
+
+export const getStaticPaths: GetStaticPaths<IParam> = async () => {
   const posts = await (await fetch(URL.POSTS)).json();
-  const paths = posts.map((post) => ({ params: { id: String(post.id) } }));
+  const paths = posts.map((post: ICustomPost) => ({ params: { id: String(post.id) } }));
 
   return {
     paths,
@@ -76,7 +81,14 @@ export async function getStaticPaths() {
   };
 }
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps<IProps, IParam> = async ({ params }) => {
+  if (params === undefined) {
+    return {
+      props: {
+        post: null,
+      }
+    };
+  }
   const post = await (await fetch(`${URL.POSTS}/${params.id}`)).json();
 
   return {

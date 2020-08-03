@@ -1,15 +1,14 @@
-import { useCallback } from 'react';
-import Router from 'next/router';
+import { GetServerSideProps } from 'next';
 
 import { URL } from '../../constants';
-
+import { useButtonClickHandler } from '../../hooks';
 import { MainLayout } from '../../layouts/MainLayout';
 
-const useButtonClickHandler = (route) => useCallback(() => {
-  Router.push(`/${route}`);
-}, []);
+interface IProps {
+  title: string;
+}
 
-export default function AboutPage({ title }) {
+const AboutPage: React.FC<IProps> = ({ title }) => {
   const handleHomeButtonClick = useButtonClickHandler('');
   const handlePostsButtonClick = useButtonClickHandler('posts');
 
@@ -20,13 +19,15 @@ export default function AboutPage({ title }) {
       <button type="button" onClick={handlePostsButtonClick}>Jump to posts</button>
     </MainLayout>
   );
-}
+};
 
 AboutPage.defaultProps = {
   title: 'About page',
 };
 
-export async function getServerSideProps() {
+export default AboutPage;
+
+export const getServerSideProps: GetServerSideProps<IProps> = async () => {
   const { title } = await (await fetch(URL.ABOUT)).json();
 
   return {
@@ -34,4 +35,4 @@ export async function getServerSideProps() {
       title,
     },
   };
-}
+};

@@ -8,7 +8,12 @@ const LINKS = [HOME_LINK, 'about', 'posts'];
 
 const capitalize = (str: string) => str.replace(/^\w/, (match) => match.toUpperCase());
 
-export const MainLayout: React.FC = ({ children, title = 'Next App' }) => {
+interface IProps {
+  children: React.ReactNode;
+  title?: string;
+};
+
+export const MainLayout: React.FC<IProps> = ({ children, title = 'Next App' }) => {
   return (
     <>
       <Head>

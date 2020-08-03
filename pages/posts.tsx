@@ -10,7 +10,7 @@ interface IProps {
   posts: ICustomPost[];
 }
 
-export default function PostsPage({ posts: serverPosts }) {
+export default function PostsPage({ posts: serverPosts }: IProps) {
   const [inputValue, setInputValue] = useState('');
   const [controlState, setControlState] = useState({
     posts: serverPosts,
@@ -32,7 +32,7 @@ export default function PostsPage({ posts: serverPosts }) {
     })();
   }, []);
 
-  const handleInputChange = (event: React.SyntheticEvent) => {
+  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setInputValue(event.target.value);
   };
 
