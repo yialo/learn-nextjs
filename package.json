@@ -1,15 +1,24 @@
 {
   "dependencies": {
-    "next": "9.4.4",
+    "json-server": "0.16.1",
+    "next": "9.5.0",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "sass": "1.26.10"
   },
-  "name": "learn-nextjs",
+  "devDependencies": {
+    "@types/node": "14.0.27",
+    "@types/react": "16.9.44",
+    "concurrently": "5.2.0",
+    "dotenv": "8.2.0",
+    "typescript": "3.9.7"
+  },
   "private": true,
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "start": "next start"
-  },
-  "version": "0.1.0"
+    "mock": "json-server --watch ./db.json --port 3100 --delay 500",
+    "start": "next start",
+    "serve": "concurrently \"npm run dev\" \"npm run mock\""
+  }
 }
